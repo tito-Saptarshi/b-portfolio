@@ -5,6 +5,7 @@ import {
   RegisterLink,
 } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 export async function Navbar() {
   const { getUser } = getKindeServerSession();
@@ -17,7 +18,11 @@ export async function Navbar() {
 
         {/* Right Side: Button */}
         {user ? (
-          <div className="flex items-center gap-x-4">
+          <div className="flex items-center gap-x-2">
+            <Button variant="secondary" asChild>
+              <Link href={`/profile/${user.id}/update`}>
+              Profile</Link>
+            </Button>
             <Button asChild>
               <LogoutLink className="w-full">Logout</LogoutLink>
             </Button>

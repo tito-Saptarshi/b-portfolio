@@ -1,7 +1,7 @@
 import prisma from "@/app/lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-
+import { generateUsername } from "unique-username-generator";
 
 import { unstable_noStore as noStore } from "next/cache";
 
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
         firstName: user.given_name ?? "",
         lastName: user.family_name ?? "",
         imageUrl: user.picture,
-        userName: user.username ?? "",
+        userName: generateUsername("-", 3, 15),
       },
     });
   }

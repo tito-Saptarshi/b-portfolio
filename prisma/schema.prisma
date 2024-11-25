@@ -22,5 +22,5 @@ model User {
   imageUrl  String?
   userName  String?  @unique
   createdAt DateTime @default(now())
-
+  bio       String?
 }
