@@ -23,4 +23,21 @@ model User {
   userName  String   @unique
   createdAt DateTime @default(now())
   bio       String?
+
+  project Project[]
+}
+
+model Project {
+  id           String  @id @default(uuid())
+  name         String
+  tools_used   String?
+  project_type String?
+  project_link String?
+  imageUrl     String?
+  details      String?
+  other_link   String?
+  github_link  String?
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
 }

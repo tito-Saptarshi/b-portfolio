@@ -1,8 +1,14 @@
+"use client"
+
 import { Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useFormStatus } from "react-dom";
+import { redirect } from "next/navigation";
 
 export function SubmitButton({ text }: { text: string }) {
+    const handleOnClick = () => {
+      redirect('/');
+    }
     const { pending } = useFormStatus();
     return (
       <>
@@ -12,7 +18,7 @@ export function SubmitButton({ text }: { text: string }) {
             Please wait
           </Button>
         ) : (
-          <Button type="submit">{text}</Button>
+          <Button onClick={handleOnClick} type="submit">{text}</Button>
         )}
       </>
     );
