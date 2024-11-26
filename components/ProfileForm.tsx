@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 
 import { useActionState, useEffect, useState } from "react";
 
@@ -20,11 +19,13 @@ import { UploadButton } from "./Uploadthing";
 import { useToast } from "@/hooks/use-toast";
 import { SubmitButton } from "./SubmitButtons";
 import { updateUserInfo } from "@/lib/actions";
-
-interface iAppProps {
+import MDEditor from "@uiw/react-md-editor";
+import { redirect, useRouter } from "next/navigation";
+export interface iAppProps {
   userName: string | undefined | null | "";
   bio: string | undefined | null | "";
   imageUrl: string | undefined | null | "";
+  fullName: string | undefined | null | "";
 }
 
 const initialState = {
@@ -32,30 +33,54 @@ const initialState = {
   status: "",
 };
 
-export function ProfileForm({ userName, bio, imageUrl }: iAppProps) {
+export function ProfileForm({ userName, bio, imageUrl, fullName }: iAppProps) {
+  const [pitch, setPitch] = useState("");
   const [newImage, setNewImage] = useState<string>("");
-  const [state, formAction] = useActionState(updateUserInfo, initialState);
   const { toast } = useToast();
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const router = useRouter();
 
   useEffect(() => {
     setNewImage(imageUrl ?? "");
   }, [imageUrl]);
 
-  useEffect(() => {
-    if (state?.status === "green") {
-      toast({
-        title: "Succesfull",
-        description: state.message,
-      });
-    } else if (state?.status === "error") {
+  const handleFormSubmit = async (prevState: any, formData: FormData) => {
+    try {
+      const result = await updateUserInfo(prevState, formData, pitch);
+
+      if (result.status == "SUCCESS") {
+        toast({
+          title: "Success",
+          description: "Your startup pitch has been created successfully",
+        });
+
+        router.push(`/`);
+        return redirect('/');
+      }
+
+      return result;
+    } catch (error) {
+      console.log(error);
+
       toast({
         title: "Error",
-        description: state.message,
+        description: "An unexpected error has occurred",
         variant: "destructive",
       });
+
+      return {
+        ...prevState,
+        error: "An unexpected error has occurred",
+        status: "ERROR",
+      };
     }
-  }, [state, toast]);
-  
+  };
+
+  const [state, formAction, isPending] = useActionState(handleFormSubmit, {
+    error: "",
+    status: "INITIAL",
+  });
+
   return (
     <form action={formAction}>
       <Card className="w-full max-w-md mx-auto">
@@ -101,12 +126,33 @@ export function ProfileForm({ userName, bio, imageUrl }: iAppProps) {
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="bio">Bio</Label>
-              <Textarea
+              <Label htmlFor="fullname">Name</Label>
+              <Input
+                id="fullname"
+                name="fullname"
+                defaultValue={fullName ?? ""}
+              />
+              {state?.status === "error" && (
+                <p className="text-destructive mt-1">{state.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2" data-color-mode="light">
+              <Label htmlFor="pitch">Bio</Label>
+              <MDEditor
+                value={pitch}
+                onChange={(value) => setPitch(value as string)}
                 id="bio"
-                name="bio"
-                defaultValue={bio ?? "Lorem ipsum dolor sit amet."}
-                className="min-h-[100px]"
+                preview="edit"
+                height={300}
+                style={{ borderRadius: 20, overflow: "hidden" }}
+                textareaProps={{
+                  placeholder:
+                    "Briefly describe your idea and what problem it solves",
+                }}
+                previewOptions={{
+                  disallowedElements: ["style"],
+                }}
               />
             </div>
           </div>
@@ -118,4 +164,3 @@ export function ProfileForm({ userName, bio, imageUrl }: iAppProps) {
     </form>
   );
 }
-

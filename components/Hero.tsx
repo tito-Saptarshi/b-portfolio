@@ -3,12 +3,15 @@ import { Button } from "@/components/ui/button";
 import { LinkedinIcon, Mail } from "lucide-react";
 import { User } from "@/lib/types";
 import { Separator } from "./ui/separator";
+import markdownit from "markdown-it";
+
+const md = markdownit();
 
 export function Hero({ user }: { user: User }) {
   if (!user) {
     return <div className="text-center text-lg py-12">User not found</div>;
   }
-
+  const parsedContent = md.render(user?.bio || "");
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -22,7 +25,7 @@ export function Hero({ user }: { user: User }) {
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
           <h1 className="text-5xl font-bold tracking-wide md:text-7xl">
-            {user.firstName} {user.lastName}
+            {user.firstName}
           </h1>
           <p className="text-lg mt-4 text-gray-300 uppercase tracking-wider">
             Data Analyst
@@ -38,38 +41,14 @@ export function Hero({ user }: { user: User }) {
             <h2 className="text-3xl font-semibold mb-6">About Me</h2>
             <Separator className="mb-6 py-0.5" />  
             <div className="prose dark:prose-invert max-w-none space-y-4">
-              <p>
-                Hello! I’m Ruiz from Metro Manila, PH. A naturally inquisitive
-                data enthusiast with a passion for{" "}
-                <span className="font-medium text-primary">
-                  personal knowledge management, collecting data, and uncovering
-                  insights
-                </span>{" "}
-                that could bloom into new ideas.
-              </p>
-              <p>
-                My journey into the world of data began with an inherent love
-                for{" "}
-                <span className="font-medium text-primary">
-                  capturing, organizing, distilling, and expressing information
-                </span>{" "}
-                — and finding meaningful patterns within it.
-              </p>
-              <p>
-                With a solid background in internet marketing,{" "}
-                <span className="font-medium text-primary">
-                  I honed my analytical skills to drive strategic decisions and
-                  uncover growth opportunities
-                </span>
-                .
-              </p>
-              <p>
-                In addition to my professional pursuits,{" "}
-                <span className="font-medium text-primary">
-                  I co-founded Oddly, an e-commerce apparel business
-                </span>
-                , blending my love for the arts with an entrepreneurial spirit.
-              </p>
+            {parsedContent ? (
+            <article
+              className="prose max-w-4xl font-work-sans break-all"
+              dangerouslySetInnerHTML={{ __html: parsedContent }}
+            />
+          ) : (
+            <p className="no-result">No details provided</p>
+          )} 
             </div>
           </section>
 

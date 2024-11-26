@@ -7,15 +7,17 @@ import { Prisma } from "@prisma/client";
 import { redirect } from "next/navigation";
 import prisma from "../app/lib/db";
 
-export async function updateUserInfo(prevState: unknown, formData: FormData) {
+export async function updateUserInfo(prevState: unknown, formData: FormData,  pitch: string) {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
   
     if (!user) {
       return redirect("/api/auth/login");
     }
-  
+    console.log();
+    
     const username = formData.get("username") as string;
+    const fullname = formData.get("fullname") as string;
     const bio = formData.get("bio") as string;
     const imageUrl = formData.get("imageUrl") as string;
   
@@ -25,12 +27,13 @@ export async function updateUserInfo(prevState: unknown, formData: FormData) {
           id: user.id,
         },
         data: {
+          firstName: fullname,
           userName: username,
-          bio: bio,
+          bio: pitch,
           imageUrl: imageUrl,
         },
       });
-  
+      
       return {
         message: "Succesfully Updated",
         status: "green",

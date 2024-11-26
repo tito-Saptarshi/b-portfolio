@@ -43,6 +43,8 @@ export default async function page({ params }: { params: { id: string } }) {
         userName={user?.userName}
         bio={user?.bio}
         imageUrl={user?.imageUrl}
+        fullName={user?.firstName + " " + user?.lastName}
+        
       />
     </>
   );

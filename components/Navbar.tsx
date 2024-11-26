@@ -10,19 +10,20 @@ import Link from "next/link";
 export async function Navbar() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
-  
+
   return (
     <nav className="bg-white shadow-md">
       <div className="container mx-auto px-4 flex justify-between items-center h-16">
         {/* Left Side: Site Name */}
-        <div className="text-2xl font-bold text-gray-800">MySite</div>
+        <div className="text-2xl font-bold text-gray-800">
+          <Link href={"/"}>MySite</Link>
+        </div>
 
         {/* Right Side: Button */}
         {user ? (
           <div className="flex items-center gap-x-2">
             <Button variant="secondary" asChild>
-              <Link href={"/update/"}>
-              Profile</Link>
+              <Link href={"/update/"}>Profile</Link>
             </Button>
             <Button asChild>
               <LogoutLink className="w-full">Logout</LogoutLink>
