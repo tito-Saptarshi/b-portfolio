@@ -10,6 +10,7 @@ import Link from "next/link";
 export async function Navbar() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
+  
   return (
     <nav className="bg-white shadow-md">
       <div className="container mx-auto px-4 flex justify-between items-center h-16">
@@ -20,7 +21,7 @@ export async function Navbar() {
         {user ? (
           <div className="flex items-center gap-x-2">
             <Button variant="secondary" asChild>
-              <Link href={`/profile/${user.id}/update`}>
+              <Link href={"/update/"}>
               Profile</Link>
             </Button>
             <Button asChild>

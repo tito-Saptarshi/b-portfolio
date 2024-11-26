@@ -9,18 +9,18 @@ generator client {
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  directUrl         = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
   id        String   @id
   email     String
-  firstName String
-  lastName  String
+  firstName String?
+  lastName  String?
   imageUrl  String?
-  userName  String?  @unique
+  userName  String   @unique
   createdAt DateTime @default(now())
   bio       String?
 }

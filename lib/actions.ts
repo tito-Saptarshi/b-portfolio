@@ -1,11 +1,13 @@
 "use server"
 
+// https://ruizdelcarmen.me/
+
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Prisma } from "@prisma/client";
 import { redirect } from "next/navigation";
 import prisma from "../app/lib/db";
 
-export async function updateUserInfo(prevState: any, formData: FormData) {
+export async function updateUserInfo(prevState: unknown, formData: FormData) {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
   
