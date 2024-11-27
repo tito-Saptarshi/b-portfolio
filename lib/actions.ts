@@ -7,10 +7,7 @@ import { Prisma } from "@prisma/client";
 import { redirect } from "next/navigation";
 import prisma from "../app/lib/db";
 
-export async function updateUserInfo(
-  prevState: unknown,
-  formData: FormData
-) {
+export async function updateUserInfo(prevState: unknown, formData: FormData) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
@@ -25,6 +22,10 @@ export async function updateUserInfo(
   // const bio = formData.get("bio") as string;
   const imageUrl = formData.get("imageUrl") as string;
   const pitch = formData.get("pitch") as string;
+  const socialLinkedIn = formData.get("sociallinkedin") as string;
+  const socialMail = formData.get("socialmail") as string;
+  const socialGithub = formData.get("socialgithub") as string;
+  const socialOtherLink = formData.get("socialotherlink") as string;
 
   try {
     await prisma.user.update({
@@ -37,6 +38,10 @@ export async function updateUserInfo(
         lastName: lastname,
         bio: pitch,
         imageUrl: imageUrl,
+        socialLinkedIn: socialLinkedIn,
+        socialMail: socialMail,
+        socialGithub: socialGithub,
+        socialOtherLink: socialOtherLink,
       },
     });
 

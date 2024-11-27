@@ -26,6 +26,10 @@ export interface iAppProps {
   firstName: string | undefined | null | "";
   lastName: string | undefined | null | "";
   imageUrl:  string | undefined | null | "";
+  socialLinkedIn : string | undefined | null | "";
+  socialMail : string | undefined | null | "";
+  socialGithub : string | undefined | null | "";
+  socialOtherLink : string | undefined | null | "";
 }
 
 const initialState = {
@@ -33,7 +37,7 @@ const initialState = {
   status: "",
 };
 
-export function ProfileForm({ userName, bio, imageUrl, firstName, lastName }: iAppProps) {
+export function ProfileForm({ userName, bio, imageUrl, firstName, lastName, socialGithub, socialOtherLink,socialLinkedIn, socialMail }: iAppProps) {
   const [newImage, setNewImage] = useState<string>("");
   const [state, formAction] = useActionState(updateUserInfo, initialState);
   const [pitch, setPitch] = useState("");
@@ -61,7 +65,7 @@ export function ProfileForm({ userName, bio, imageUrl, firstName, lastName }: iA
 
   return (
     <form action={formAction}>
-      <Card className="w-full max-w-md mx-auto">
+      <Card className="w-full max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle>Edit Your Profile</CardTitle>
           <CardDescription>Update your profile information.</CardDescription>
@@ -143,6 +147,50 @@ export function ProfileForm({ userName, bio, imageUrl, firstName, lastName }: iA
                   disallowedElements: ["style"],
                 }}
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="socialgithub">Github<span className="text-muted-foreground"> (Optional) </span></Label>
+              <Input
+                id="socialgithub"
+                name="socialgithub"
+                defaultValue={socialGithub ?? ""}
+              />
+              {state?.status === "error" && (
+                <p className="text-destructive mt-1">{state.message}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="sociallinkedin">LinkedIn<span className="text-muted-foreground"> (Optional) </span></Label>
+              <Input
+                id="sociallinkedin"
+                name="sociallinkedin"
+                defaultValue={socialLinkedIn ?? ""}
+              />
+              {state?.status === "error" && (
+                <p className="text-destructive mt-1">{state.message}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="socialmail">Mail Id<span className="text-muted-foreground"> (Optional) </span></Label>
+              <Input
+                id="socialmail"
+                name="socialmail"
+                defaultValue={socialMail ?? ""}
+              />
+              {state?.status === "error" && (
+                <p className="text-destructive mt-1">{state.message}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="socialotherlink">Other Links <span className="text-muted-foreground"> (Optional) </span></Label>
+              <Input
+                id="socialotherlink"
+                name="socialotherlink"
+                defaultValue={socialOtherLink ?? ""}
+              />
+              {state?.status === "error" && (
+                <p className="text-destructive mt-1">{state.message}</p>
+              )}
             </div>
           </div>
         </CardContent>

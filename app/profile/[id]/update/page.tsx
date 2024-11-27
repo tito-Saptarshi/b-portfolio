@@ -31,12 +31,12 @@ export default async function page({ params }: { params: { id: string } }) {
   return (
     <>
       <div className="flex justify-between items-center mb-6 ml-5 pt-4">
-        <div>
+        {/* <div>
           <h1 className="text-2xl font-bold">Profile Page</h1>
           <p className="text-muted-foreground">
             Update your profile information.
           </p>
-        </div>
+        </div> */}
       </div>
       <Separator className="mt-10 mb-2 " />
       <ProfileForm
@@ -45,7 +45,10 @@ export default async function page({ params }: { params: { id: string } }) {
         firstName={user?.firstName}
         lastName={user?.lastName }
         imageUrl={user?.imageUrl}
-        
+        socialLinkedIn={user?.socialLinkedIn}
+        socialMail={user?.socialMail}
+        socialGithub={user?.socialGithub}
+        socialOtherLink={user?.socialOtherLink}
       />
     </>
   );

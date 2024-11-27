@@ -7,6 +7,13 @@ export interface User {
     userName?: string; // Optional field
     createdAt: Date;
     bio?: string; // Optional field
+
+    socialLinkedIn: string | null;
+    socialMail: string | null;
+    socialGithub: string | null;
+    socialOtherLink: string | null;
+
+    project: Project;
   }
   
 

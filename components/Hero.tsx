@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { LinkedinIcon, Mail } from "lucide-react";
+import { LinkedinIcon, Mail, GithubIcon } from "lucide-react";
 import { User } from "@/lib/types";
 import { Separator } from "./ui/separator";
 import markdownit from "markdown-it";
@@ -16,7 +16,7 @@ export function Hero({ user, admin }: { user: User; admin: boolean }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="relative h-[400px]">
+      <div className="relative h-[400px] max-h-[300px]">
         <Image
           src="https://c4.wallpaperflare.com/wallpaper/990/547/605/digital-art-futuristic-city-car-artwork-wallpaper-preview.jpg"
           alt="Classical architecture background"
@@ -71,35 +71,70 @@ export function Hero({ user, admin }: { user: User; admin: boolean }) {
             )}
 
             {/* Social Links */}
+
             <section>
               <h2 className="text-2xl font-semibold mb-4">Socials</h2>
               <div className="flex flex-col gap-4">
-                <Button
-                  variant="outline"
-                  className="w-full justify-start"
-                  asChild
-                >
-                  <a
-                    href="#linkedin"
-                    className="flex items-center gap-2 text-primary"
+                {user.socialLinkedIn && (
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start"
+                    asChild
                   >
-                    <LinkedinIcon className="h-5 w-5" />
-                    LinkedIn
-                  </a>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full justify-start"
-                  asChild
-                >
-                  <a
-                    href="mailto:example@email.com"
-                    className="flex items-center gap-2 text-primary"
+                    <a
+                      href={user.socialLinkedIn}
+                      className="flex items-center gap-2 text-primary"
+                    >
+                      <LinkedinIcon className="h-5 w-5" />
+                      LinkedIn
+                    </a>
+                  </Button>
+                )}
+                {user.socialGithub && (
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start"
+                    asChild
                   >
-                    <Mail className="h-5 w-5" />
-                    Email
-                  </a>
-                </Button>
+                    <a
+                      href={user.socialGithub}
+                      className="flex items-center gap-2 text-primary"
+                    >
+                      <GithubIcon className="h-5 w-5" />
+                      Github
+                    </a>
+                  </Button>
+                )}
+                {user.socialMail && (
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start"
+                    asChild
+                  >
+                    <a
+                      href={`mailto:${user.socialMail}`}
+                      className="flex items-center gap-2 text-primary"
+                    >
+                      <Mail className="h-5 w-5" />
+                      Email
+                    </a>
+                  </Button>
+                )}
+                {user.socialOtherLink && (
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start"
+                    asChild
+                  >
+                    <a
+                      href= {user.socialOtherLink}
+                      className="flex items-center gap-2 text-primary"
+                    >
+                      {/* <Mail className="h-5 w-5" /> */}
+                      {user.socialOtherLink}
+                    </a>
+                  </Button>
+                )}
               </div>
             </section>
           </aside>

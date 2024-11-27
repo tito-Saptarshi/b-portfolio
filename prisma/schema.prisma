@@ -24,6 +24,11 @@ model User {
   createdAt DateTime @default(now())
   bio       String?
 
+  socialLinkedIn String?
+  socialMail String?
+  socialGithub String?
+  socialOtherLink String?
+
   project Project[]
 }
 
