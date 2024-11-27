@@ -20,12 +20,12 @@ import { useToast } from "@/hooks/use-toast";
 import { SubmitButton } from "./SubmitButtons";
 import { updateUserInfo } from "@/lib/actions";
 import MDEditor from "@uiw/react-md-editor";
-import { redirect, useRouter } from "next/navigation";
 export interface iAppProps {
   userName: string | undefined | null | "";
   bio: string | undefined | null | "";
-  imageUrl: string | undefined | null | "";
-  fullName: string | undefined | null | "";
+  firstName: string | undefined | null | "";
+  lastName: string | undefined | null | "";
+  imageUrl:  string | undefined | null | "";
 }
 
 const initialState = {
@@ -33,53 +33,31 @@ const initialState = {
   status: "",
 };
 
-export function ProfileForm({ userName, bio, imageUrl, fullName }: iAppProps) {
-  const [pitch, setPitch] = useState("");
+export function ProfileForm({ userName, bio, imageUrl, firstName, lastName }: iAppProps) {
   const [newImage, setNewImage] = useState<string>("");
+  const [state, formAction] = useActionState(updateUserInfo, initialState);
+  const [pitch, setPitch] = useState("");
   const { toast } = useToast();
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const router = useRouter();
 
   useEffect(() => {
     setNewImage(imageUrl ?? "");
-  }, [imageUrl]);
+    setPitch(bio ?? "");
+  }, [imageUrl, bio]);
 
-  const handleFormSubmit = async (prevState: any, formData: FormData) => {
-    try {
-      const result = await updateUserInfo(prevState, formData, pitch);
-
-      if (result.status == "SUCCESS") {
-        toast({
-          title: "Success",
-          description: "Your startup pitch has been created successfully",
-        });
-
-        router.push(`/`);
-        return redirect('/');
-      }
-
-      return result;
-    } catch (error) {
-      console.log(error);
-
+  useEffect(() => {
+    if (state?.status === "green") {
+      toast({
+        title: "Succesfull",
+        description: state.message,
+      });
+    } else if (state?.status === "error") {
       toast({
         title: "Error",
-        description: "An unexpected error has occurred",
+        description: state.message,
         variant: "destructive",
       });
-
-      return {
-        ...prevState,
-        error: "An unexpected error has occurred",
-        status: "ERROR",
-      };
     }
-  };
-
-  const [state, formAction, isPending] = useActionState(handleFormSubmit, {
-    error: "",
-    status: "INITIAL",
-  });
+  }, [state, toast]);
 
   return (
     <form action={formAction}>
@@ -112,6 +90,7 @@ export function ProfileForm({ userName, bio, imageUrl, fullName }: iAppProps) {
               Cancel
             </Button>
             <input type="hidden" name="imageUrl" value={newImage} />
+            <input type="hidden" name="pitch" value={pitch} />
           </div>
           <div className="space-y-4">
             <div className="space-y-2">
@@ -126,23 +105,33 @@ export function ProfileForm({ userName, bio, imageUrl, fullName }: iAppProps) {
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="fullname">Name</Label>
+              <Label htmlFor="firstname">First Name</Label>
               <Input
-                id="fullname"
-                name="fullname"
-                defaultValue={fullName ?? ""}
+                id="firstname"
+                name="firstname"
+                defaultValue={firstName ?? ""}
               />
               {state?.status === "error" && (
                 <p className="text-destructive mt-1">{state.message}</p>
               )}
             </div>
-
+            <div className="space-y-2">
+              <Label htmlFor="lastname">Last Name</Label>
+              <Input
+                id="lastname"
+                name="lastname"
+                defaultValue={lastName ?? ""}
+              />
+              {state?.status === "error" && (
+                <p className="text-destructive mt-1">{state.message}</p>
+              )}
+            </div>
             <div className="space-y-2" data-color-mode="light">
-              <Label htmlFor="pitch">Bio</Label>
+              <Label htmlFor="bio">Bio</Label>
               <MDEditor
-                value={pitch}
+               value={pitch ?? ""}
                 onChange={(value) => setPitch(value as string)}
-                id="bio"
+                id="pitch"
                 preview="edit"
                 height={300}
                 style={{ borderRadius: 20, overflow: "hidden" }}

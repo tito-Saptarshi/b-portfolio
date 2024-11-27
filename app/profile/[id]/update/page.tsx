@@ -42,8 +42,9 @@ export default async function page({ params }: { params: { id: string } }) {
       <ProfileForm
         userName={user?.userName}
         bio={user?.bio}
+        firstName={user?.firstName}
+        lastName={user?.lastName }
         imageUrl={user?.imageUrl}
-        fullName={user?.firstName + " " + user?.lastName}
         
       />
     </>

@@ -1,7 +1,7 @@
 import prisma from "@/app/lib/db";
 import { ProjectCard } from "./ProjectCard";
 import { unstable_noStore as noStore } from "next/cache";
-import Link from "next/link";
+
 
 
 async function getData(userName: string) {

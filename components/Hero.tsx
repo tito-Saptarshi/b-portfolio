@@ -4,10 +4,11 @@ import { LinkedinIcon, Mail } from "lucide-react";
 import { User } from "@/lib/types";
 import { Separator } from "./ui/separator";
 import markdownit from "markdown-it";
+import Link from "next/link";
 
 const md = markdownit();
 
-export function Hero({ user }: { user: User }) {
+export function Hero({ user, admin }: { user: User; admin: boolean }) {
   if (!user) {
     return <div className="text-center text-lg py-12">User not found</div>;
   }
@@ -25,7 +26,7 @@ export function Hero({ user }: { user: User }) {
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
           <h1 className="text-5xl font-bold tracking-wide md:text-7xl">
-            {user.firstName}
+            {user.firstName + " " + user.lastName}
           </h1>
           <p className="text-lg mt-4 text-gray-300 uppercase tracking-wider">
             Data Analyst
@@ -39,16 +40,16 @@ export function Hero({ user }: { user: User }) {
           {/* About Section */}
           <section>
             <h2 className="text-3xl font-semibold mb-6">About Me</h2>
-            <Separator className="mb-6 py-0.5" />  
+            <Separator className="mb-6 py-0.5" />
             <div className="prose dark:prose-invert max-w-none space-y-4">
-            {parsedContent ? (
-            <article
-              className="prose max-w-4xl font-work-sans break-all"
-              dangerouslySetInnerHTML={{ __html: parsedContent }}
-            />
-          ) : (
-            <p className="no-result">No details provided</p>
-          )} 
+              {parsedContent ? (
+                <article
+                  className="prose max-w-4xl font-work-sans break-all"
+                  dangerouslySetInnerHTML={{ __html: parsedContent }}
+                />
+              ) : (
+                <p className="no-result">No details provided</p>
+              )}
             </div>
           </section>
 
@@ -65,6 +66,9 @@ export function Hero({ user }: { user: User }) {
             <p className="text-lg text-gray-600 dark:text-gray-400">
               Hello, I’m {user.firstName}!
             </p>
+            {admin && (
+              <Link href={`/profile/${user.userName}/update`}>update</Link>
+            )}
 
             {/* Social Links */}
             <section>

@@ -22,9 +22,6 @@ export async function Navbar() {
         {/* Right Side: Button */}
         {user ? (
           <div className="flex items-center gap-x-2">
-            <Button variant="secondary" asChild>
-              <Link href={"/update/"}>Profile</Link>
-            </Button>
             <Button asChild>
               <LogoutLink className="w-full">Logout</LogoutLink>
             </Button>
