@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { LinkedinIcon, Mail, GithubIcon } from "lucide-react";
+import { LinkedinIcon, Mail, GithubIcon, UserIcon } from "lucide-react";
 import { User } from "@/lib/types";
 import { Separator } from "./ui/separator";
 import markdownit from "markdown-it";
@@ -67,7 +67,20 @@ export function Hero({ user, admin }: { user: User; admin: boolean }) {
               Hello, I’m {user.firstName}!
             </p>
             {admin && (
-              <Link href={`/profile/${user.userName}/update`}>update</Link>
+              <div >
+                <Link href={`/profile/${user.userName}/update`}>
+                  <p className="flex text-sm text-muted-foreground hover:cursor-pointer hover:font-bold items-center justify-center">
+                    <UserIcon className="h-4 w-4 mx-1" />
+                    update profile
+                  </p>
+                </Link>
+                <Link href={`/profile/${user.userName}/project/create`}>
+                  <p className="flex text-sm text-muted-foreground hover:cursor-pointer hover:font-bold items-center justify-center">
+                    <UserIcon className="h-4 w-4 mx-1" />
+                    Create Project
+                  </p>
+                </Link>
+              </div>
             )}
 
             {/* Social Links */}
@@ -127,7 +140,7 @@ export function Hero({ user, admin }: { user: User; admin: boolean }) {
                     asChild
                   >
                     <a
-                      href= {user.socialOtherLink}
+                      href={user.socialOtherLink}
                       className="flex items-center gap-2 text-primary"
                     >
                       {/* <Mail className="h-5 w-5" /> */}
