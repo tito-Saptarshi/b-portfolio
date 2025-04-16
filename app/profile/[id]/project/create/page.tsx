@@ -158,7 +158,7 @@ export default function ProjectUploadPage() {
                     <FormLabel>Project Link<span className="text-muted-foreground">(Optional)</span></FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="e.g. React, Node.js, TypeScript"
+                        placeholder="www.projectNameHost.com"
                         {...field}
                       />
                     </FormControl>
@@ -174,7 +174,7 @@ export default function ProjectUploadPage() {
                     <FormLabel>Github Repo<span className="text-muted-foreground">(Optional)</span></FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="e.g. React, Node.js, TypeScript"
+                        placeholder="www.gitHub.com/userName/projectName"
                         {...field}
                       />
                     </FormControl>
