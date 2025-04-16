@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { RegisterLink } from '@kinde-oss/kinde-auth-nextjs/components'
 
 export function CTA() {
   return (
@@ -16,9 +17,9 @@ export function CTA() {
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Button asChild size="lg">
-              <Link href="/signup">Get started</Link>
+              <RegisterLink>Get started</RegisterLink>
             </Button>
-            <Button variant="outline" size="lg" asChild>
+            <Button variant="outline" size="lg" asChild disabled hidden>
               <Link href="#features">Learn more <span aria-hidden="true">→</span></Link>
             </Button>
           </div>
