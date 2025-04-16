@@ -60,10 +60,10 @@ export default async function Prid({
         </h1>
         {admin && (
           <>
-          <Link href={"/"} className="p-4 pt-2">
+          <Link href={"/"} className="p-4 pt-2 hidden">
             edit
           </Link>
-          <Link href={"/"} className="p-4 pt-2">
+          <Link href={"/"} className="p-4 pt-2 hidden">
             delete
           </Link>
           </>
